@@ -2,7 +2,6 @@ package sk.stuba.fei.uim.oop.bang;
 
 import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
-import sk.stuba.fei.uim.oop.utility.ZKlavesnice;
 
 public class Bang {
     private final Player[] players;
