@@ -1,5 +1,6 @@
 package sk.stuba.fei.uim.oop.board;
 
+import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.deck.Deck;
 import sk.stuba.fei.uim.oop.player.Player;
 
@@ -16,6 +17,9 @@ public class Board {
                 player.addCard(this.deck.draw());
             }
         }
+    }
 
+    public void addCardToDeck(Card card) {
+        this.deck.addCard(card);
     }
 }
