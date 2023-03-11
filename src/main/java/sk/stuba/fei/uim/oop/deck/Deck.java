@@ -48,4 +48,8 @@ public class Deck {
     public void shuffle() {
         Collections.shuffle(this.deck);
     }
+
+    public Card draw() {
+        return this.deck.remove(0);
+    }
 }
