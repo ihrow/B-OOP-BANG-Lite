@@ -3,10 +3,10 @@ package sk.stuba.fei.uim.oop.bang;
 import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 
-public class Bang {
+public class Game {
     private final Player[] players;
 
-    public Bang() {
+    public Game() {
         System.out.println("\uD83C\uDF35 Bang! Bang! Bang! \uD83D\uDCA5 \n");
         int numberOfPlayers = 0;
         while (numberOfPlayers < 2 || numberOfPlayers > 4) {
