@@ -34,4 +34,8 @@ public class Player {
         lives--;
     }
 
+    public void setCards(ArrayList<Card> cards) {
+        this.cards = cards;
+    }
+
 }
