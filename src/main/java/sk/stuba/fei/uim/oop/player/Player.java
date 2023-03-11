@@ -38,4 +38,8 @@ public class Player {
         this.cards = cards;
     }
 
+    public void addCard(Card card) {
+        this.cards.add(card);
+    }
+
 }
