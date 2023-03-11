@@ -17,4 +17,14 @@ public class Game {
             this.players[i] = new Player(KeyboardInput.readString("Enter " + (i + 1) + " player name"));
         }
     }
+
+    private int getNumberOfActivePlayers() {
+        int numberOfActivePlayers = 0;
+        for (Player player : this.players) {
+            if (player.isAlive()) {
+                numberOfActivePlayers++;
+            }
+        }
+        return numberOfActivePlayers;
+    }
 }
