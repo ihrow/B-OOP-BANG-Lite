@@ -111,7 +111,6 @@ public class KeyboardInput {
             String s = readString();
             return s.isEmpty() ? Integer.MIN_VALUE : Integer.parseInt(s);
         } catch (NumberFormatException e) {
-            e.printStackTrace();
             return Integer.MIN_VALUE;
         }
     }
