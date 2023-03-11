@@ -26,4 +26,8 @@ public class Player {
         return cards;
     }
 
+    public boolean isAlive() {
+        return lives > 0;
+    }
+
 }
