@@ -42,4 +42,10 @@ public class Player {
         this.cards.add(card);
     }
 
+    public ArrayList<Card> removeAllCards() {
+        ArrayList<Card> cardsToDeck = this.cards;
+        this.cards = new ArrayList<Card>();
+        return cardsToDeck;
+    }
+
 }
