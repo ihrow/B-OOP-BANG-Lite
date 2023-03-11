@@ -52,4 +52,8 @@ public class Deck {
     public Card draw() {
         return this.deck.remove(0);
     }
+
+    public void addCard(Card card) {
+        this.deck.add(card);
+    }
 }
