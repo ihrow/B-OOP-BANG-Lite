@@ -30,4 +30,8 @@ public class Player {
         return lives > 0;
     }
 
+    public void removeLife() {
+        lives--;
+    }
+
 }
