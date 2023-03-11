@@ -3,6 +3,7 @@ package sk.stuba.fei.uim.oop.deck;
 import sk.stuba.fei.uim.oop.cards.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Deck {
     private ArrayList<Card> deck;
@@ -42,5 +43,9 @@ public class Deck {
         for (int i = 0; i < 2; i++) {
             this.deck.add(new Indians());
         }
+    }
+
+    public void shuffle() {
+        Collections.shuffle(this.deck);
     }
 }
