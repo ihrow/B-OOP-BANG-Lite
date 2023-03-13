@@ -16,12 +16,8 @@ public abstract class Card {
         return name;
     }
 
-    public void play() {
-        System.out.println("You can't play this card on yourself!");
-    }
+    public abstract void play();
 
-    public void play(Player opponent) {
-        System.out.println("You can't play this card on another player!");
-    }
+    public abstract void play(Player targetPlayer);
 
 }
