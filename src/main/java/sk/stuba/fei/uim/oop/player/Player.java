@@ -1,6 +1,8 @@
 package sk.stuba.fei.uim.oop.player;
 
 import sk.stuba.fei.uim.oop.cards.Card;
+import sk.stuba.fei.uim.oop.cards.Missed;
+
 import static sk.stuba.fei.uim.oop.utility.Colors.*;
 import java.util.ArrayList;
 
@@ -85,4 +87,18 @@ public class Player {
     public void removeCard(Card card) {
         this.cards.remove(card);
     }
+
+    public void addTwoLives() {
+        this.lives += 2;
+    }
+
+    public Card haveMissedCard() {
+        for (Card card : this.cards) {
+            if (card instanceof Missed) {
+                return card;
+            }
+        }
+        return null;
+    }
+
 }
