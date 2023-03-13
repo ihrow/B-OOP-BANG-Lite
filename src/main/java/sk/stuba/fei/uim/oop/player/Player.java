@@ -66,4 +66,23 @@ public class Player {
         }
     }
 
+    public ArrayList<Card> getBlueCards() {
+        return this.playedBlueCards;
+    }
+
+    public boolean checkCard(Card checkCard) {
+        for (Card card : this.cards) {
+            if (card.getName().equals(checkCard.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Card getCard(int index) {
+        return this.cards.get(index);
+    }
+    public void removeCard(Card card) {
+        this.cards.remove(card);
+    }
 }
