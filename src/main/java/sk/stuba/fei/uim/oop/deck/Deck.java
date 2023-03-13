@@ -15,7 +15,7 @@ public class Deck {
     }
 
     private void addBlueCards() {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 2; i++) {
             this.deck.add(new Barrel());
         }
         for (int i = 0; i < 3; i++) {

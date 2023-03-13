@@ -1,7 +1,7 @@
 package sk.stuba.fei.uim.oop.bang;
 
-import sk.stuba.fei.uim.oop.board.Board;
 import sk.stuba.fei.uim.oop.cards.Card;
+import sk.stuba.fei.uim.oop.deck.Deck;
 import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 import static sk.stuba.fei.uim.oop.utility.Colors.*;
@@ -13,9 +13,11 @@ import java.util.Random;
 public class Game {
     private final Player[] players;
     private int currentPlayer;
-    private Board board;
+    private Deck deck;
 
     public Game() {
+        this.deck = new Deck();
+        this.deck.shuffle();
 
         System.out.println(ANSI_RED_B + "\uD83C\uDF35 Bang! Bang! Bang! \uD83D\uDCA5" + ANSI_RESET);
         int numberOfPlayers = 0;
@@ -26,6 +28,14 @@ public class Game {
         for (int i = 0; i < numberOfPlayers; i++) {
             this.players[i] = new Player(KeyboardInput.readString("Enter " + (i + 1) + " player name"));
         }
+
+        // Each player starts with 4 cards from the deck
+        for (Player player : players) {
+            for (int i = 0; i < 4; i++) {
+                player.addCard(this.deck.draw());
+            }
+        }
+
         this.startGame();
     }
 
@@ -41,7 +51,6 @@ public class Game {
 
     private void startGame() {
         System.out.println(ANSI_YELLOW_BI + "\n\uD83D\uDC02 Yeehaw! It's time to start a game of Bang!" + ANSI_RESET);
-        this.board = new Board(this.players);
         Random random = new Random();
 
         while (this.getNumberOfActivePlayers() > 1) {
@@ -49,14 +58,13 @@ public class Game {
             if (!activePlayer.isAlive()) {
                 ArrayList<Card> cards = activePlayer.removeAllCards();
                 for (Card card : cards) {
-                    this.board.addCardToDeck(card);
+                    this.deck.addCard(card);
                 }
                 this.currentPlayer = (this.currentPlayer + 1) % this.players.length;
                 continue;
             }
-
             this.announceTurn(activePlayer, random);
-            System.out.println(ANSI_CYAN + "\uD83E\uDDE1 " + activePlayer.getName() + " has " + ANSI_RED + activePlayer.getHealth() + " lives." + ANSI_RESET);
+            this.makeTurn(activePlayer);
             break;
         }
     }
@@ -78,5 +86,19 @@ public class Game {
         int index = rnd.nextInt(TURN_VARIATIONS.length);
         String turnAnnouncement = TURN_VARIATIONS[index].replace("[player]", ANSI_RED_B + activePlayer.getName() + ANSI_PURPLE);
         System.out.println(ANSI_PURPLE + "\n\uD83D\uDCE2 " + turnAnnouncement + ANSI_RESET);
+        System.out.println(ANSI_CYAN + "\uD83E\uDDE1 " + activePlayer.getName() + " has " + ANSI_RED + activePlayer.getHealth() + " lives." + ANSI_RESET);
+    }
+
+    private void makeTurn(Player activePlayer) {
+        /*
+            Drawing cards - at the beginning of his turn, the given player draws 2 cards from the deck.
+            If he has blue cards (Prison, Dynamite) in front of him, their effect is excecuted as first.
+         */
+        for (int i = 0; i < 2; i++) {
+            activePlayer.addCard(this.deck.draw());
+        }
+
+        activePlayer.displayCards();
+
     }
 }
