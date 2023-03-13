@@ -94,11 +94,34 @@ public class Game {
             Drawing cards - at the beginning of his turn, the given player draws 2 cards from the deck.
             If he has blue cards (Prison, Dynamite) in front of him, their effect is excecuted as first.
          */
+        for (Card card : activePlayer.getBlueCards()) {
+            // card.effect(activePlayer, this.players, this.deck);
+        }
         for (int i = 0; i < 2; i++) {
             activePlayer.addCard(this.deck.draw());
         }
-
         activePlayer.displayCards();
 
+        int choice = -1;
+        while (true) {
+            choice = this.selectCard(activePlayer);
+            if (choice == 0 || activePlayer.getAllCards().size() == 0) {
+                break;
+            }
+        }
+
+    }
+
+    private int selectCard(Player activePlayer) {
+        int choice = KeyboardInput.readInt(ANSI_GREEN + "\uD83E\uDD20 Enter card number to play or 0 to end turn" + ANSI_RESET);
+        if (choice == 0) {
+            return choice;
+        } else if (choice > activePlayer.getAllCards().size()) {
+            return -1;
+        }
+        Card card = activePlayer.getCard(choice - 1);
+        activePlayer.removeCard(card);
+        this.deck.addCard(card);
+        return choice;
     }
 }
