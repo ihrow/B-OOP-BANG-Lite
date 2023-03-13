@@ -6,12 +6,13 @@ import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 import static sk.stuba.fei.uim.oop.utility.Colors.*;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
 
 public class Game {
-    private final Player[] players;
+    private ArrayList<Player> players;
     private int currentPlayer;
     private Deck deck;
 
@@ -24,9 +25,9 @@ public class Game {
         while (numberOfPlayers < 2 || numberOfPlayers > 4) {
             numberOfPlayers = KeyboardInput.readInt(ANSI_GREEN + "\uD83E\uDD20 Enter amount of players (2-4)" + ANSI_RESET);
         }
-        this.players = new Player[numberOfPlayers];
+        this.players = new ArrayList<Player>();
         for (int i = 0; i < numberOfPlayers; i++) {
-            this.players[i] = new Player(KeyboardInput.readString("Enter " + (i + 1) + " player name"));
+            this.players.add(new Player(KeyboardInput.readString("Enter " + (i + 1) + " player name")));
         }
 
         // Each player starts with 4 cards from the deck
@@ -39,7 +40,28 @@ public class Game {
         this.startGame();
     }
 
+    private void checkActivePlayers() {
+        ArrayList<Player> activePlayers = new ArrayList<Player>();
+        for (Player player : this.players) {
+            if (player.isAlive()) {
+                activePlayers.add(player);
+            }
+            else {
+                this.putCardsBackToTheDeck(player);
+            }
+        }
+        this.players = activePlayers;
+    }
+
+    private void putCardsBackToTheDeck(Player deadPlayer) {
+        ArrayList<Card> cards = deadPlayer.removeAllCards();
+        for (Card card : cards) {
+            this.deck.addCard(card);
+        }
+    }
+
     private int getNumberOfActivePlayers() {
+        this.checkActivePlayers();
         int numberOfActivePlayers = 0;
         for (Player player : this.players) {
             if (player.isAlive()) {
@@ -48,24 +70,15 @@ public class Game {
         }
         return numberOfActivePlayers;
     }
-
     private void startGame() {
         System.out.println(ANSI_YELLOW_BI + "\n\uD83D\uDC02 Yeehaw! It's time to start a game of Bang!" + ANSI_RESET);
         Random random = new Random();
 
         while (this.getNumberOfActivePlayers() > 1) {
-            Player activePlayer = this.players[this.currentPlayer];
-            if (!activePlayer.isAlive()) {
-                ArrayList<Card> cards = activePlayer.removeAllCards();
-                for (Card card : cards) {
-                    this.deck.addCard(card);
-                }
-                this.currentPlayer = (this.currentPlayer + 1) % this.players.length;
-                continue;
-            }
+            Player activePlayer = this.players.get(this.currentPlayer);
             this.announceTurn(activePlayer, random);
             this.makeTurn(activePlayer);
-            break;
+            this.currentPlayer = (this.currentPlayer + 1) % this.players.size();
         }
     }
 
@@ -113,16 +126,19 @@ public class Game {
                 System.out.println(ANSI_RED + "\uD83C\uDCCF You have no cards left" + ANSI_RESET);
                 break;
             }
+            else if (choice > activePlayer.getAllCards().size() || choice < 0) {
+                System.out.println(ANSI_RED + "❌ Wrong card number" + ANSI_RESET);
+                continue;
+            }
+            chosenCard = activePlayer.getAllCards().get(choice - 1);
+            this.selectPlayer(chosenCard, activePlayer);
         }
-        chosenCard = activePlayer.getAllCards().get(choice - 1);
-        this.displayPlayers();
-        this.selectPlayer(chosenCard, activePlayer);
-
     }
 
     private void displayPlayers() {
+        System.out.print("\n\n");
         for (int i = 0; i < getNumberOfActivePlayers(); i++) {
-            System.out.println(ANSI_CYAN + "\uD83E\uDDE1 " + (i + 1) + ". " + this.players[i].getName() + ANSI_RESET);
+            System.out.println(ANSI_CYAN + "\uD83E\uDDE1 " + (i + 1) + ". " + this.players.get(i).getName() + ANSI_RESET);
         }
     }
 
@@ -136,9 +152,12 @@ public class Game {
             this.deck.addCard(chosenCard);
             return 1;
         }
-
-        int choice = KeyboardInput.readInt(ANSI_GREEN + "\uD83D\uDD22 Enter player number to play or 0 to end turn" + ANSI_RESET);
-        chosenCard.play(this.players[choice - 1]);
+        int choice = -1;
+        this.displayPlayers();
+        while (choice < 1 || choice > getNumberOfActivePlayers()) {
+            choice = KeyboardInput.readInt(ANSI_GREEN + "Enter player number to play the card on" + ANSI_RESET);
+        }
+        chosenCard.play(this.players.get(choice - 1));
         activePlayer.removeCard(chosenCard);
         this.deck.addCard(chosenCard);
 
