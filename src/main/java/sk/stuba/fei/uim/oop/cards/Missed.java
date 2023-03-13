@@ -9,11 +9,11 @@ public class Missed extends Card {
     }
     @Override
     public void play() {
-        System.out.println("Missed!");
+        System.out.println("You automatically missed the Bang!");
     }
     @Override
     public void play(Player targetPlayer) {
-        System.out.println("Missed!");
+        System.out.println("You automatically missed the Bang!");
     }
 }
 

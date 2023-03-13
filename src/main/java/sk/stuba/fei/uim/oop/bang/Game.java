@@ -1,6 +1,6 @@
 package sk.stuba.fei.uim.oop.bang;
 
-import sk.stuba.fei.uim.oop.cards.Card;
+import sk.stuba.fei.uim.oop.cards.*;
 import sk.stuba.fei.uim.oop.deck.Deck;
 import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
@@ -100,28 +100,48 @@ public class Game {
         for (int i = 0; i < 2; i++) {
             activePlayer.addCard(this.deck.draw());
         }
-        activePlayer.displayCards();
 
         int choice = -1;
+        Card chosenCard = null;
         while (true) {
-            choice = this.selectCard(activePlayer);
-            if (choice == 0 || activePlayer.getAllCards().size() == 0) {
+            activePlayer.displayCards();
+            choice = KeyboardInput.readInt(ANSI_GREEN + "\uD83D\uDD22 Enter card number to play or 0 to end turn" + ANSI_RESET);
+            if (choice == 0) {
+                System.out.println(ANSI_RED + "\uD83D\uDED1 You have ended your turn" + ANSI_RESET);
+                break;
+            } else if (activePlayer.getAllCards().size() == 0) {
+                System.out.println(ANSI_RED + "\uD83C\uDCCF You have no cards left" + ANSI_RESET);
                 break;
             }
         }
+        chosenCard = activePlayer.getAllCards().get(choice - 1);
+        this.displayPlayers();
+        this.selectPlayer(chosenCard, activePlayer);
 
     }
 
-    private int selectCard(Player activePlayer) {
-        int choice = KeyboardInput.readInt(ANSI_GREEN + "\uD83E\uDD20 Enter card number to play or 0 to end turn" + ANSI_RESET);
-        if (choice == 0) {
-            return choice;
-        } else if (choice > activePlayer.getAllCards().size()) {
-            return -1;
+    private void displayPlayers() {
+        for (int i = 0; i < getNumberOfActivePlayers(); i++) {
+            System.out.println(ANSI_CYAN + "\uD83E\uDDE1 " + (i + 1) + ". " + this.players[i].getName() + ANSI_RESET);
         }
-        Card card = activePlayer.getCard(choice - 1);
-        activePlayer.removeCard(card);
-        this.deck.addCard(card);
-        return choice;
+    }
+
+    private int selectPlayer(Card chosenCard, Player activePlayer) {
+        if (chosenCard instanceof Missed) {
+            System.out.println(ANSI_RED + "❌ You can't play Missed card" + ANSI_RESET);
+            return -1;
+        } else if (chosenCard instanceof Barrel || chosenCard instanceof Beer || chosenCard instanceof Stagecoach || chosenCard instanceof Dynamite) {
+            chosenCard.play(activePlayer);
+            activePlayer.removeCard(chosenCard);
+            this.deck.addCard(chosenCard);
+            return 1;
+        }
+
+        int choice = KeyboardInput.readInt(ANSI_GREEN + "\uD83D\uDD22 Enter player number to play or 0 to end turn" + ANSI_RESET);
+        chosenCard.play(this.players[choice - 1]);
+        activePlayer.removeCard(chosenCard);
+        this.deck.addCard(chosenCard);
+
+        return 1;
     }
 }

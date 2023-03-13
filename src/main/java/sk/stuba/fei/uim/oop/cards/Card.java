@@ -16,8 +16,8 @@ public abstract class Card {
         return name;
     }
 
-    public abstract void play();
+    public void play(Player targetPlayer) {}
 
-    public abstract void play(Player targetPlayer);
+    public void playBlueCard(Player targetPlayer) {}
 
 }

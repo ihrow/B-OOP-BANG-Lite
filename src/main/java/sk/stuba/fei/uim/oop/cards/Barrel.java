@@ -8,11 +8,12 @@ public class Barrel extends Card {
         super(CARD_NAME);
     }
     @Override
-    public void play() {
-        System.out.println("Barrel!");
-    }
-    @Override
     public void play(Player targetPlayer) {
+        System.out.println("You played Barrel " + targetPlayer.getName());
+    }
+
+    @Override
+    public void playBlueCard(Player targetPlayer) {
         System.out.println("You played Barrel " + targetPlayer.getName());
     }
 }
