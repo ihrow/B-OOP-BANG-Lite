@@ -16,32 +16,32 @@ public class Deck {
 
     private void addBlueCards() {
         for (int i = 0; i < 2; i++) {
-            this.deck.add(new Barrel());
+            this.deck.add(new Barrel(this));
         }
         for (int i = 0; i < 3; i++) {
-            this.deck.add(new Prison());
+            this.deck.add(new Prison(this));
         }
-        this.deck.add(new Dynamite());
+        this.deck.add(new Dynamite(this));
     }
 
     private void addBrownCards() {
         for (int i = 0; i < 30; i++) {
-            this.deck.add(new Bang());
+            this.deck.add(new Bang(this));
         }
         for (int i = 0; i < 15; i++) {
-            this.deck.add(new Missed());
+            this.deck.add(new Missed(this));
         }
         for (int i = 0; i < 8; i++) {
-            this.deck.add(new Beer());
+            this.deck.add(new Beer(this));
         }
         for (int i = 0; i < 6; i++) {
-            this.deck.add(new CatBalou());
+            this.deck.add(new CatBalou(this));
         }
         for (int i = 0; i < 4; i++) {
-            this.deck.add(new Stagecoach());
+            this.deck.add(new Stagecoach(this));
         }
         for (int i = 0; i < 2; i++) {
-            this.deck.add(new Indians());
+            this.deck.add(new Indians(this));
         }
     }
 
@@ -55,5 +55,9 @@ public class Deck {
 
     public void addCard(Card card) {
         this.deck.add(card);
+    }
+
+    public ArrayList<Card> getDeck() {
+        return this.deck;
     }
 }

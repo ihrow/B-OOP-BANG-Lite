@@ -1,23 +1,22 @@
 package sk.stuba.fei.uim.oop.cards;
 
+import sk.stuba.fei.uim.oop.deck.Deck;
 import sk.stuba.fei.uim.oop.player.Player;
 
 public abstract class Card {
-    public static final String ANSI_BROWN = "\033[33m"; // actually yellow
-    public static final String ANSI_BLUE = "\033[34m";
-    public static final String ANSI_RESET = "\033[0m";
     protected String name;
+    protected Deck deck;
 
-    public Card(String name) {
+    public Card(String name, Deck deck) {
         this.name = name;
+        this.deck = deck;
     }
 
     public String getName() {
         return name;
     }
 
-    public void play(Player targetPlayer) {}
-
-    public void playBlueCard(Player targetPlayer) {}
-
+    public void play(Player targetPlayer) {
+        System.out.println("You played " + name + " on " + targetPlayer.getName());
+    }
 }
