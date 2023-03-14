@@ -19,7 +19,8 @@ public class Dynamite extends Card {
 
     @Override
     public void effect(Player player) {
-        super.effect();
+        super.effect(player);
+        player.removeCard(this);
         int chance = this.deck.getRandom().nextInt(8) + 1;
         if (chance == 1) {
             System.out.println("Booom! The dynamite has exploded!. \uD83D\uDCA5 \nYou lost " + ANSI_RED_B + "3 ❤️." + ANSI_RESET);
@@ -32,7 +33,6 @@ public class Dynamite extends Card {
                     this.deck.addCard(card);
                 }
                 System.out.println(player.getName() + " is dead. ☠️");
-                return;
             }
             System.out.println("You are left with " + ANSI_RED_B + player.getHealth() + ANSI_RESET + " lives.");
             player.removeBlueCard(this);
