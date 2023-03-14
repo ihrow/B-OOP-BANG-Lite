@@ -103,17 +103,19 @@ public class Game {
             Drawing cards - at the beginning of his turn, the given player draws 2 cards from the deck.
             If he has blue cards (Prison, Dynamite) in front of him, their effect is excecuted as first.
          */
-        ArrayList<Card> blueCards = activePlayer.getBlueCards();
+        ArrayList<Card> blueCards = activePlayer.getPlayedBlueCards();
 
         for (int i = 0; i < blueCards.size(); i++) {
             Card card = blueCards.get(i);
             card.effect(activePlayer);
 
             if (card instanceof Prison) {
-                return;
+                if (!card.didEscape(activePlayer)) {
+                    return;
+                }
             }
 
-            if (card instanceof Dynamite && activePlayer.getBlueCards().contains(card)) {
+            if (card instanceof Dynamite && activePlayer.getPlayedBlueCards().contains(card)) {
                 this.moveCardToThePreviousPlayer(activePlayer, card);
             }
 
@@ -127,6 +129,10 @@ public class Game {
             activePlayer.addCard(this.deck.draw());
         }
 
+        this.selectCard(activePlayer);
+    }
+
+    private void selectCard(Player activePlayer) {
         int choice = -1;
         Card chosenCard = null;
         while (true) {
@@ -149,27 +155,32 @@ public class Game {
     }
 
     private void displayOpponents(Player activePlayer) {
-        System.out.println("\n\n");
+        System.out.println("\n");
         for (int i = 0; i < this.players.size(); i++) {
             if (this.players.get(i) == activePlayer) {
                 continue;
             }
-            System.out.println(ANSI_PURPLE + (i + 1) + ". " + this.players.get(i).getName() + ANSI_RESET);
+            System.out.println(ANSI_PURPLE + (i + 1) + ". " + ANSI_YELLOW_B + this.players.get(i).getName() + ANSI_GREEN + " with " + ANSI_RED_B + this.players.get(i).getHealth() + " lives" + ANSI_GREEN + " and " + ANSI_BLUE_B + this.players.get(i).getAllCards().size() + " cards." + ANSI_RESET);
         }
     }
 
-
-    private int selectPlayer(Card chosenCard, Player activePlayer) {
+    private void selectPlayer(Card chosenCard, Player activePlayer) {
         if (chosenCard instanceof Missed) {
             System.out.println(ANSI_RED + "❌ You can't play Missed card" + ANSI_RESET);
-            return -1;
+            return;
         } else if (chosenCard instanceof Barrel || chosenCard instanceof Beer || chosenCard instanceof Stagecoach || chosenCard instanceof Dynamite) {
             chosenCard.play(activePlayer);
-            activePlayer.removeCard(chosenCard);
-            if (chosenCard instanceof Beer || chosenCard instanceof Stagecoach) {
-                this.deck.addCard(chosenCard);
+            return;
+        } else if (chosenCard instanceof Indians) {
+            for (Player player : this.players) {
+                if (player == activePlayer) {
+                    continue;
+                }
+                chosenCard.play(player);
             }
-            return 1;
+            activePlayer.removeCard(chosenCard);
+            this.deck.addCard(chosenCard);
+            return;
         }
 
         int choice = -1;
@@ -177,12 +188,11 @@ public class Game {
         while (choice < 1 || choice > getNumberOfActivePlayers()) {
             choice = KeyboardInput.readInt(ANSI_GREEN + "\uD83D\uDD22 Enter player number to play the card on" + ANSI_RESET);
         }
-        chosenCard.play(this.players.get(choice - 1));
-        activePlayer.removeCard(chosenCard);
-        if (!(chosenCard instanceof Prison)) {
-            this.deck.addCard(chosenCard);
+        Player opponent = this.players.get(choice - 1);
+        if (!(chosenCard instanceof CatBalou && opponent.getAllCards().isEmpty() && opponent.getPlayedBlueCards().isEmpty())) {
+            activePlayer.removeCard(chosenCard);
         }
-        return 1;
+        chosenCard.play(opponent);
     }
 
     private void moveCardToThePreviousPlayer(Player activePlayer, Card card) {
