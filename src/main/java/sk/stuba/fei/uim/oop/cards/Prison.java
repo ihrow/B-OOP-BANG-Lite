@@ -12,6 +12,12 @@ public class Prison extends Card {
     @Override
     public void play(Player targetPlayer) {
         super.play(targetPlayer);
-        targetPlayer.getBlueCards().add(this);
+        targetPlayer.addBlueCard(this);
+    }
+    @Override
+    public void effect(Player player) {
+        super.effect();
+        System.out.println(ANSI_RED + "\uD83D\uDC6E You are in prison and cannot play this turn" + ANSI_RESET);
+        this.deck.addCard(this);
     }
 }
