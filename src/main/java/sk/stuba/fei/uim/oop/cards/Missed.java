@@ -9,8 +9,12 @@ public class Missed extends Card {
     public Missed(Deck deck) {
         super(CARD_NAME, deck);
     }
+
     @Override
-    public void play(Player targetPlayer) {
+    public void effect(Player targetPlayer) {
+        targetPlayer.removeCard(this);
+        this.deck.addCard(this);
+        System.out.println(ANSI_RED_B + "MISSED!" + ANSI_RESET + "\n");
     }
 }
 
