@@ -5,13 +5,17 @@ import sk.stuba.fei.uim.oop.cards.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import java.util.Random;
+
 public class Deck {
     private ArrayList<Card> deck;
+    protected Random random;
 
     public Deck() {
         this.deck = new ArrayList<Card>();
         this.addBlueCards();
         this.addBrownCards();
+        this.random = new Random();
     }
 
     private void addBlueCards() {
@@ -59,5 +63,13 @@ public class Deck {
 
     public ArrayList<Card> getDeck() {
         return this.deck;
+    }
+
+    public Random getRandom() {
+        return this.random;
+    }
+
+    public boolean isEmpty() {
+        return this.deck.isEmpty();
     }
 }
