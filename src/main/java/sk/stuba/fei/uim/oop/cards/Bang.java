@@ -13,18 +13,29 @@ public class Bang extends Card {
     @Override
     public void play(Player targetPlayer) {
         super.play(targetPlayer);
+        Card isBarrel = targetPlayer.haveBarrelCardPlayed();
+        if (isBarrel != null) {
+            boolean didBarrelSave = isBarrel.didSave(targetPlayer);
+            if (didBarrelSave) {
+                return;
+            }
+        }
         Card isMissed = targetPlayer.haveMissedCard();
         if (isMissed != null) {
-            targetPlayer.removeCard(isMissed);
-            this.deck.addCard(isMissed);
-            System.out.println("You missed the bang. \uD83D\uDC80");
-        } else {
-            targetPlayer.removeLife();
-            System.out.println(targetPlayer.getName() + " lost a life. \uD83D\uDC94");
-            System.out.println(targetPlayer.getName() + " has " + ANSI_RED + targetPlayer.getHealth() + ANSI_RESET + " lives left. \uD83D\uDC80");
-            if (!targetPlayer.isAlive()) {
-                System.out.println(targetPlayer.getName() + " is dead. ☠️");
-            }
+            isMissed.effect(targetPlayer);
+            return;
+        }
+        this.effect(targetPlayer);
+    }
+
+    @Override
+    public void effect(Player targetPlayer) {
+        targetPlayer.removeLife();
+        this.deck.addCard(this);
+        System.out.print(ANSI_YELLOW_B + targetPlayer.getName() + ANSI_RESET + " lost a life ");
+        System.out.println("and has " + ANSI_RED + targetPlayer.getHealth() + ANSI_RESET + " ❤️ left.\n");
+        if (!targetPlayer.isAlive()) {
+            System.out.println(targetPlayer.getName() + " is dead. ☠️");
         }
     }
 }
