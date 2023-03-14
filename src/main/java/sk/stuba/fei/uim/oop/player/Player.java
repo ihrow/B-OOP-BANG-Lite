@@ -1,5 +1,6 @@
 package sk.stuba.fei.uim.oop.player;
 
+import sk.stuba.fei.uim.oop.cards.Barrel;
 import sk.stuba.fei.uim.oop.cards.Card;
 import sk.stuba.fei.uim.oop.cards.Missed;
 
@@ -62,30 +63,22 @@ public class Player {
             }
             System.out.println(ANSI_RESET);
         }
-        System.out.println("Playable cards:");
+        System.out.println(ANSI_CYAN + this.name + ANSI_RESET + ", your cards:");
         for (int i = 0; i < this.cards.size(); i++) {
             System.out.println("Card " + (i + 1) + ": " + cards.get(i).getName());
         }
     }
 
-    public ArrayList<Card> getBlueCards() {
+    public ArrayList<Card> getPlayedBlueCards() {
         return this.playedBlueCards;
     }
 
-    public boolean checkCard(Card checkCard) {
-        for (Card card : this.cards) {
-            if (card.getName().equals(checkCard.getName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public Card getCard(int index) {
-        return this.cards.get(index);
-    }
     public void removeCard(Card card) {
         this.cards.remove(card);
+    }
+    public void removeCard(int index) {
+        System.out.println(ANSI_RED_B + this.cards.get(index).getName() + " removed." + ANSI_RESET);
+        this.cards.remove(index);
     }
 
     public void addTwoLives() {
@@ -101,11 +94,31 @@ public class Player {
         return null;
     }
 
-    public void addBlueCard(Card card) {
-        this.playedBlueCards.add(card);
+    public Card haveBarrelCardPlayed() {
+        for (Card card : this.playedBlueCards) {
+            if (card instanceof Barrel) {
+                return card;
+            }
+        }
+        return null;
+    }
+
+    public void addBlueCard(Card playedCard) {
+        for (Card card : this.playedBlueCards) {
+            if (playedCard.getName().equals(card.getName())) {
+                System.out.println("You already have this card in front of you.");
+                return;
+            }
+        }
+        this.playedBlueCards.add(playedCard);
     }
 
     public void removeBlueCard(Card card) {
         this.playedBlueCards.remove(card);
+    }
+
+    public void removeBlueCard(int cardChoice) {
+        System.out.println(ANSI_RED_B + this.playedBlueCards.get(cardChoice).getName() + " removed." + ANSI_RESET);
+        this.playedBlueCards.remove(cardChoice);
     }
 }
