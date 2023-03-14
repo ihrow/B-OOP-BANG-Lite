@@ -14,6 +14,10 @@ public class Stagecoach extends Card {
     public void play(Player targetPlayer) {
         System.out.println("You have drawn 2 cards");
         for (int i = 0; i < 2; i++) {
+            if (this.deck.isEmpty()) {
+                System.out.println(ANSI_RED + "The deck is empty" + ANSI_RESET);
+                return;
+            }
             targetPlayer.addCard(this.deck.draw());
         }
     }
