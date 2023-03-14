@@ -20,5 +20,7 @@ public class Stagecoach extends Card {
             }
             targetPlayer.addCard(this.deck.draw());
         }
+        targetPlayer.removeCard(this);
+        this.deck.addCard(this);
     }
 }
