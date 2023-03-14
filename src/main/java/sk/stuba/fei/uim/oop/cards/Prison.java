@@ -16,8 +16,20 @@ public class Prison extends Card {
     }
     @Override
     public void effect(Player player) {
-        super.effect();
-        System.out.println(ANSI_RED + "\uD83D\uDC6E You are in prison and cannot play this turn" + ANSI_RESET);
+        super.effect(player);
+        System.out.print(ANSI_RED + "\uD83D\uDC6E You are in prison! " + ANSI_RESET);
         this.deck.addCard(this);
+        player.removeBlueCard(this);
+    }
+
+    @Override
+    public boolean didEscape(Player player) {
+        int chance = this.deck.getRandom().nextInt(4) + 1;
+        if (chance == 1) {
+            System.out.println(ANSI_GREEN + "You escaped from prison!" + ANSI_RESET);
+            return true;
+        }
+        System.out.println(ANSI_RED + "You didn't escape from prison!" + ANSI_RESET);
+        return false;
     }
 }
