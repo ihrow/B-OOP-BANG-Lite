@@ -62,7 +62,7 @@ public class Player {
             }
             System.out.println(ANSI_RESET);
         }
-        System.out.println("\nPlayable cards:");
+        System.out.println("Playable cards:");
         for (int i = 0; i < this.cards.size(); i++) {
             System.out.println("Card " + (i + 1) + ": " + cards.get(i).getName());
         }
@@ -101,4 +101,11 @@ public class Player {
         return null;
     }
 
+    public void addBlueCard(Card card) {
+        this.playedBlueCards.add(card);
+    }
+
+    public void removeBlueCard(Card card) {
+        this.playedBlueCards.remove(card);
+    }
 }
