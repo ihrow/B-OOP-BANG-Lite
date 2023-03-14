@@ -2,6 +2,8 @@ package sk.stuba.fei.uim.oop.cards;
 
 import sk.stuba.fei.uim.oop.deck.Deck;
 import sk.stuba.fei.uim.oop.player.Player;
+import static sk.stuba.fei.uim.oop.utility.Colors.*;
+
 
 public abstract class Card {
     protected String name;
@@ -17,6 +19,14 @@ public abstract class Card {
     }
 
     public void play(Player targetPlayer) {
-        System.out.println("You played " + name + " on " + targetPlayer.getName());
+        System.out.println(ANSI_YELLOW_BI + name + " on " + targetPlayer.getName() + ANSI_RESET);
+    }
+
+    public void effect() {
+        System.out.println(ANSI_RED_B + "You have " + name + ANSI_RED_B + " card in front of you." + ANSI_RESET);
+    }
+
+    public void effect(Player player) {
+        System.out.println(ANSI_RED_B + "You have " + name + ANSI_RED_B + " card in front of you." + ANSI_RESET);
     }
 }
