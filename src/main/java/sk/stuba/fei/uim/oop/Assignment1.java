@@ -8,6 +8,6 @@ public class Assignment1 {
             Great inspiration from the repository
             https://github.com/TomasKovyKovacik/B-OOP-2022-StreleneKacky
          */
-        Game bang = new Game();
+        new Game();
     }
 }

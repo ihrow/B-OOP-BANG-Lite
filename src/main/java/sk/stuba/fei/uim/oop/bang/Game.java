@@ -6,13 +6,12 @@ import sk.stuba.fei.uim.oop.player.Player;
 import sk.stuba.fei.uim.oop.utility.KeyboardInput;
 import static sk.stuba.fei.uim.oop.utility.Colors.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Game {
     private ArrayList<Player> players;
     private int currentPlayer;
-    private Deck deck;
+    private final Deck deck;
 
     public Game() {
         this.deck = new Deck();
@@ -23,7 +22,7 @@ public class Game {
         while (numberOfPlayers < 2 || numberOfPlayers > 4) {
             numberOfPlayers = KeyboardInput.readInt(ANSI_GREEN + "\uD83E\uDD20 Enter amount of players (2-4)" + ANSI_RESET);
         }
-        this.players = new ArrayList<Player>();
+        this.players = new ArrayList<>();
         for (int i = 0; i < numberOfPlayers; i++) {
             this.players.add(new Player(KeyboardInput.readString("Enter " + (i + 1) + " player name")));
         }
@@ -39,7 +38,7 @@ public class Game {
     }
 
     private void checkActivePlayers() {
-        ArrayList<Player> activePlayers = new ArrayList<Player>();
+        ArrayList<Player> activePlayers = new ArrayList<>();
         for (Player player : this.players) {
             if (player.isAlive()) {
                 activePlayers.add(player);
@@ -134,8 +133,8 @@ public class Game {
     }
 
     private void selectCard(Player activePlayer) {
-        int choice = -1;
-        Card chosenCard = null;
+        int choice;
+        Card chosenCard;
         while (true) {
             if (this.getNumberOfActivePlayers() == 1) {
                 return;
