@@ -2,6 +2,9 @@ package sk.stuba.fei.uim.oop.cards;
 
 import sk.stuba.fei.uim.oop.deck.Deck;
 import sk.stuba.fei.uim.oop.player.Player;
+
+import java.util.ArrayList;
+
 import static sk.stuba.fei.uim.oop.utility.Colors.*;
 
 public class Bang extends Card {
@@ -13,17 +16,17 @@ public class Bang extends Card {
     @Override
     public void play(Player targetPlayer) {
         super.play(targetPlayer);
-        Card isBarrel = targetPlayer.haveBarrelCardPlayed();
-        if (isBarrel != null) {
-            boolean didBarrelSave = isBarrel.didSave(targetPlayer);
-            if (didBarrelSave) {
+        ArrayList<Card> playedBlueCards= targetPlayer.getPlayedBlueCards();
+        for (Card card : playedBlueCards) {
+            if (card instanceof Barrel) {
+                boolean didBarrelSave = card.didSave(targetPlayer);
+                if (didBarrelSave) {
+                    return;
+                }
+            } else if (card instanceof Missed) {
+                card.effect(targetPlayer);
                 return;
             }
-        }
-        Card isMissed = targetPlayer.haveMissedCard();
-        if (isMissed != null) {
-            isMissed.effect(targetPlayer);
-            return;
         }
         this.effect(targetPlayer);
     }

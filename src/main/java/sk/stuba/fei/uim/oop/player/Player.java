@@ -85,24 +85,6 @@ public class Player {
         this.lives += 2;
     }
 
-    public Card haveMissedCard() {
-        for (Card card : this.cards) {
-            if (card instanceof Missed) {
-                return card;
-            }
-        }
-        return null;
-    }
-
-    public Card haveBarrelCardPlayed() {
-        for (Card card : this.playedBlueCards) {
-            if (card instanceof Barrel) {
-                return card;
-            }
-        }
-        return null;
-    }
-
     public void addBlueCard(Card playedCard) {
         for (Card card : this.playedBlueCards) {
             if (playedCard.getName().equals(card.getName())) {
