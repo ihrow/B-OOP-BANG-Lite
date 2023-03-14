@@ -13,6 +13,8 @@ public class Beer extends Card {
     @Override
     public void play(Player targetPlayer) {
         System.out.println("You played " + name + " and gained " + ANSI_RED_B +  "two ❤️" + ANSI_RESET);
+        targetPlayer.removeCard(this);
         targetPlayer.addTwoLives();
+        this.deck.addCard(this);
     }
 }
