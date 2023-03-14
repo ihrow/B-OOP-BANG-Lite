@@ -77,6 +77,8 @@ public class Game {
             this.makeTurn(activePlayer);
             this.currentPlayer = (this.currentPlayer + 1) % this.players.size();
         }
+        System.out.println(ANSI_YELLOW_BI + "The game is over! Congratulations to the winner!" + ANSI_RESET);
+        System.out.println(ANSI_GREEN + "The winner is " + ANSI_RED_B + this.players.get(0).getName() + ANSI_RESET);
     }
 
     private void announceTurn(Player activePlayer, int index) {
@@ -128,7 +130,6 @@ public class Game {
             }
             activePlayer.addCard(this.deck.draw());
         }
-
         this.selectCard(activePlayer);
     }
 
@@ -136,6 +137,9 @@ public class Game {
         int choice = -1;
         Card chosenCard = null;
         while (true) {
+            if (this.getNumberOfActivePlayers() == 1) {
+                return;
+            }
             activePlayer.displayCards();
             choice = KeyboardInput.readInt(ANSI_GREEN + "\uD83D\uDD22 Enter card number to play or 0 to end turn" + ANSI_RESET);
             if (choice == 0) {
