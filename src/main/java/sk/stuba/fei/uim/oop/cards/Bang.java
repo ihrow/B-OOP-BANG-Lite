@@ -22,6 +22,9 @@ public class Bang extends Card {
             targetPlayer.removeLife();
             System.out.println(targetPlayer.getName() + " lost a life. \uD83D\uDC94");
             System.out.println(targetPlayer.getName() + " has " + ANSI_RED + targetPlayer.getHealth() + ANSI_RESET + " lives left. \uD83D\uDC80");
+            if (!targetPlayer.isAlive()) {
+                System.out.println(targetPlayer.getName() + " is dead. ☠️");
+            }
         }
     }
 }
