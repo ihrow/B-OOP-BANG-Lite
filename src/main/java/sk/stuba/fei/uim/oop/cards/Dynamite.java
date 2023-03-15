@@ -7,7 +7,7 @@ import sk.stuba.fei.uim.oop.player.Player;
 import java.util.ArrayList;
 
 public class Dynamite extends Card {
-    public static final String CARD_NAME = ANSI_YELLOW_B + "Dynamite \uD83E\uDDE8" + ANSI_RESET;
+    public static final String CARD_NAME = ANSI_BLUE_B + "Dynamite \uD83E\uDDE8" + ANSI_RESET;
     public Dynamite(Deck deck) {
         super(CARD_NAME, deck);
     }
@@ -15,12 +15,12 @@ public class Dynamite extends Card {
     public void play(Player targetPlayer) {
         System.out.println(ANSI_YELLOW_BI + "\nYou played " + ANSI_RESET + CARD_NAME + ANSI_YELLOW_BI + " card." + ANSI_RESET + "\n");
         targetPlayer.addBlueCard(this);
+        targetPlayer.removeCard(this);
     }
 
     @Override
     public void effect(Player player) {
         super.effect(player);
-        player.removeCard(this);
         int chance = this.deck.getRandom().nextInt(8) + 1;
         if (chance == 1) {
             System.out.println("Booom! The dynamite has exploded!. \uD83D\uDCA5 \nYou lost " + ANSI_RED_B + "3 ❤️." + ANSI_RESET);
