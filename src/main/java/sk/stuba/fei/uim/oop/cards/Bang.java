@@ -16,18 +16,25 @@ public class Bang extends Card {
     @Override
     public void play(Player targetPlayer) {
         super.play(targetPlayer);
-        ArrayList<Card> playedBlueCards= targetPlayer.getPlayedBlueCards();
-        for (Card card : playedBlueCards) {
-            if (card instanceof Barrel) {
-                boolean didBarrelSave = card.didSave(targetPlayer);
-                if (didBarrelSave) {
+        ArrayList<Card> playedBlueCards = targetPlayer.getPlayedBlueCards();
+        ArrayList<Card> playerHand = targetPlayer.getAllCards();
+
+        for (int i = 0; i < playedBlueCards.size(); i++) {
+            if (playedBlueCards.get(i) instanceof Barrel) {
+                if (playedBlueCards.get(i).didSave(targetPlayer)) {
                     return;
                 }
-            } else if (card instanceof Missed) {
+            }
+        }
+
+        for (int i = 0; i < playerHand.size(); i++) {
+            Card card = playerHand.get(i);
+            if (card instanceof Missed) {
                 card.effect(targetPlayer);
                 return;
             }
         }
+
         this.effect(targetPlayer);
     }
 
