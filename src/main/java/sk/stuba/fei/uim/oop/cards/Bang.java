@@ -41,9 +41,6 @@ public class Bang extends Card {
     @Override
     public void effect(Player targetPlayer) {
         targetPlayer.removeLife();
-        this.deck.addCard(this);
-        System.out.print(ANSI_YELLOW_B + targetPlayer.getName() + ANSI_RESET + " lost a life ");
-        System.out.println("and has " + ANSI_RED + targetPlayer.getHealth() + ANSI_RESET + " ❤️ left.\n");
         if (!targetPlayer.isAlive()) {
             System.out.println(targetPlayer.getName() + " is dead. ☠️");
         }

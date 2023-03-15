@@ -22,23 +22,25 @@ public class Player {
     }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public int getHealth() {
-        return lives;
+        return this.lives;
     }
 
     public ArrayList<Card> getAllCards() {
-        return cards;
+        return this.cards;
     }
 
     public boolean isAlive() {
-        return lives > 0;
+        return this.lives > 0;
     }
 
     public void removeLife() {
-        lives--;
+        this.lives--;
+        System.out.print(ANSI_YELLOW_B + this.getName() + ANSI_RESET + " lost a life ");
+        System.out.println("and has " + ANSI_RED + this.getHealth() + ANSI_RESET + " ❤️ left.");
     }
 
     public void setCards(ArrayList<Card> cards) {
@@ -63,9 +65,9 @@ public class Player {
             }
             System.out.println(ANSI_RESET);
         }
-        System.out.println(ANSI_CYAN + this.name + ANSI_RESET + ", your cards:");
+        System.out.println("\n" + ANSI_CYAN + this.name + ANSI_RESET + ", your cards:");
         for (int i = 0; i < this.cards.size(); i++) {
-            System.out.println("Card " + (i + 1) + ": " + cards.get(i).getName());
+            System.out.println("Card " + (i + 1) + ": " + this.cards.get(i).getName());
         }
     }
 
