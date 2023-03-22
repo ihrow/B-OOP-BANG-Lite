@@ -148,8 +148,8 @@ public class Game {
         }
     }
 
-    private int discardCard(Player player) {
-        int choice = -1;
+    private void discardCard(Player player) {
+        int choice;
         while (true) {
             choice = KeyboardInput.readInt(ANSI_GREEN + "\uD83D\uDD22 Enter card number to discard" + ANSI_RESET);
              if (choice > player.getAllCards().size() || choice < 1) {
@@ -159,7 +159,7 @@ public class Game {
                 player.removeCard(card);
                 this.deck.addCard(card);
                 System.out.println(ANSI_RED + "\uD83D\uDED1 You have discarded " + card.getName() + ANSI_RESET + "\n");
-                return 1;
+                return;
             }
         }
     }
