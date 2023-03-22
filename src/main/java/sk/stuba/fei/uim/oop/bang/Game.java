@@ -28,7 +28,7 @@ public class Game {
         }
 
         // Each player starts with 4 cards from the deck
-        for (Player player : players) {
+        for (Player player : this.players) {
             for (int i = 0; i < 4; i++) {
                 player.addCard(this.deck.draw());
             }
@@ -104,6 +104,8 @@ public class Game {
             Drawing cards - at the beginning of his turn, the given player draws 2 cards from the deck.
             If he has blue cards (Prison, Dynamite) in front of him, their effect is excecuted as first.
          */
+
+        // If he has blue cards (Prison, Dynamite) in front of him, their effect is excecuted as first.
         ArrayList<Card> blueCards = activePlayer.getPlayedBlueCards();
 
         for (int i = 0; i < blueCards.size(); i++) {
@@ -122,6 +124,7 @@ public class Game {
 
         }
 
+        // Drawing cards - at the beginning of his turn, the given player draws 2 cards from the deck.
         for (int i = 0; i < 2; i++) {
             if (this.deck.isEmpty()) {
                 System.out.println(ANSI_RED + "The deck is empty" + ANSI_RESET);
@@ -130,6 +133,35 @@ public class Game {
             activePlayer.addCard(this.deck.draw());
         }
         this.selectCard(activePlayer);
+        this.discardCards(activePlayer);
+    }
+
+    private void discardCards(Player player) {
+        if (player.getAllCards().size() <= player.getHealth()) {
+            return;
+        }
+        System.out.println("\n" + ANSI_GREEN + "You have " + ANSI_RED + player.getAllCards().size() + ANSI_GREEN + " cards in your hand, but " + ANSI_RED + player.getHealth() + ANSI_GREEN + " lives" + ANSI_RESET);
+        System.out.println("You have to discard " + ANSI_RED + (player.getAllCards().size() - player.getHealth()) + ANSI_GREEN + " cards" + ANSI_RESET);
+        for (int i = player.getAllCards().size(); i > player.getHealth(); i--) {
+            player.displayCards();
+            this.discardCard(player);
+        }
+    }
+
+    private int discardCard(Player player) {
+        int choice = -1;
+        while (true) {
+            choice = KeyboardInput.readInt(ANSI_GREEN + "\uD83D\uDD22 Enter card number to discard" + ANSI_RESET);
+             if (choice > player.getAllCards().size() || choice < 1) {
+                System.out.println(ANSI_RED + "\uD83D\uDED1 Invalid card number" + ANSI_RESET);
+            } else {
+                Card card = player.getAllCards().get(choice - 1);
+                player.removeCard(card);
+                this.deck.addCard(card);
+                System.out.println(ANSI_RED + "\uD83D\uDED1 You have discarded " + card.getName() + ANSI_RESET + "\n");
+                return 1;
+            }
+        }
     }
 
     private void selectCard(Player activePlayer) {
@@ -188,7 +220,7 @@ public class Game {
 
         int choice = -1;
         this.displayOpponents(activePlayer);
-        while (choice < 1 || choice > getNumberOfActivePlayers()) {
+        while (choice < 1 || choice > getNumberOfActivePlayers() || choice == (this.players.indexOf(activePlayer) + 1)) {
             choice = KeyboardInput.readInt(ANSI_GREEN + "\uD83D\uDD22 Enter player number to play the card on" + ANSI_RESET);
         }
         Player opponent = this.players.get(choice - 1);
