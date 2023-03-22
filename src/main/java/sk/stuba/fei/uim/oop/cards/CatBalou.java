@@ -46,7 +46,7 @@ public class CatBalou extends Card {
         while (choice < 1 || choice > 2) {
             System.out.println("1: Discard 1 card from opponent's hand.");
             System.out.println("2: Discard 1 opponent's card from the table.");
-            choice = KeyboardInput.readInt(ANSI_GREEN + "\uD83E\uDD20 Choose what to do:" + ANSI_RESET);
+            choice = KeyboardInput.readInt(ANSI_GREEN + "\uD83E\uDD20 Choose what to do" + ANSI_RESET);
         }
         return choice;
     }

@@ -22,7 +22,7 @@ public class Barrel extends Card {
             System.out.println(ANSI_RED_B + targetPlayer.getName() + ": " + ANSI_PURPLE + "Hah! I knew I could count on this ol' barrel to protect me." + ANSI_RESET);
             return true;
         } else {
-            System.out.println(ANSI_RED_B + targetPlayer.getName() + ": " + ANSI_PURPLE + "Darn, that barrel didn't quite do the trick." + ANSI_RESET);
+            System.out.println(ANSI_RED_B + targetPlayer.getName() + ": " + ANSI_PURPLE + "Darn, that" + ANSI_BLUE_B + "barrel" + ANSI_RESET + "didn't quite do the trick." + ANSI_RESET);
             targetPlayer.removeBlueCard(this);
             this.deck.addCard(this);
             return false;

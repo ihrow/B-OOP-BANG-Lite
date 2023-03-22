@@ -26,10 +26,10 @@ public class Prison extends Card {
     public boolean didEscape(Player player) {
         int chance = this.deck.getRandom().nextInt(4) + 1;
         if (chance == 1) {
-            System.out.println(ANSI_GREEN + "You escaped from prison!" + ANSI_RESET);
+            System.out.println(ANSI_GREEN + "You escaped!" + ANSI_RESET);
             return true;
         }
-        System.out.println(ANSI_RED + "You didn't escape from prison!" + ANSI_RESET);
+        System.out.println(ANSI_RED + "You didn't escape!" + ANSI_RESET);
         return false;
     }
 }

@@ -65,7 +65,7 @@ public class Player {
             }
             System.out.println(ANSI_RESET);
         }
-        System.out.println("\n" + ANSI_CYAN + this.name + ANSI_RESET + ", your cards:");
+        System.out.println(ANSI_CYAN + this.name + ANSI_RESET + ", your cards:");
         for (int i = 0; i < this.cards.size(); i++) {
             System.out.println("Card " + (i + 1) + ": " + this.cards.get(i).getName());
         }
