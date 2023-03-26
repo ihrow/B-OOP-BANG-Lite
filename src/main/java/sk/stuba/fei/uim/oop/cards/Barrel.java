@@ -12,8 +12,7 @@ public class Barrel extends Card {
 
     @Override
     public void play(Player targetPlayer) {
-        targetPlayer.removeCard(this);
-        targetPlayer.addBlueCard(this);
+        if(targetPlayer.addBlueCard(this)) targetPlayer.removeCard(this);
     }
     @Override
     public boolean didSave(Player targetPlayer) {
@@ -22,9 +21,7 @@ public class Barrel extends Card {
             System.out.println(ANSI_RED_B + targetPlayer.getName() + ": " + ANSI_PURPLE + "Hah! I knew I could count on this ol' barrel to protect me." + ANSI_RESET);
             return true;
         } else {
-            System.out.println(ANSI_RED_B + targetPlayer.getName() + ": " + ANSI_PURPLE + "Darn, that" + ANSI_BLUE_B + "barrel" + ANSI_RESET + "didn't quite do the trick." + ANSI_RESET);
-            targetPlayer.removeBlueCard(this);
-            this.deck.addCard(this);
+            System.out.println(ANSI_RED_B + targetPlayer.getName() + ": " + ANSI_RESET + "Darn, that " + ANSI_BLUE_B + " barrel" + ANSI_RESET + "didn't quite do the trick." + ANSI_RESET);
             return false;
         }
     }
