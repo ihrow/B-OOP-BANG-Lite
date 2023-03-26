@@ -74,6 +74,7 @@ public class Game {
             Player activePlayer = this.players.get(this.currentPlayer);
             this.announceTurn(activePlayer, (index++ % 10));
             this.makeTurn(activePlayer);
+            if(this.currentPlayer == this.players.size()) this.currentPlayer--;
             this.currentPlayer = (this.currentPlayer + 1) % this.players.size();
         }
         System.out.println(ANSI_YELLOW_BI + "The game is over! Congratulations to the winner!" + ANSI_RESET);
@@ -96,7 +97,6 @@ public class Game {
         };
         String turnAnnouncement = TURN_VARIATIONS[index].replace("[player]", ANSI_RED_B + activePlayer.getName() + ANSI_PURPLE);
         System.out.println(ANSI_PURPLE + "\n\uD83D\uDCE2 " + turnAnnouncement + ANSI_RESET);
-        System.out.println(ANSI_CYAN + activePlayer.getName() + " has " + ANSI_RED + activePlayer.getHealth() + " lives." + ANSI_RESET + "\n");
     }
 
     private void makeTurn(Player activePlayer) {
@@ -224,7 +224,8 @@ public class Game {
             choice = KeyboardInput.readInt(ANSI_GREEN + "\uD83D\uDD22 Enter player number to play the card on" + ANSI_RESET);
         }
         Player opponent = this.players.get(choice - 1);
-        if (!(chosenCard instanceof CatBalou && opponent.getAllCards().isEmpty() && opponent.getPlayedBlueCards().isEmpty())) {
+        if ( !(chosenCard instanceof CatBalou && opponent.getAllCards().isEmpty() && opponent.getPlayedBlueCards().isEmpty())
+                && !(chosenCard instanceof Prison && opponent.isInPrison())) {
             activePlayer.removeCard(chosenCard);
         }
         chosenCard.play(opponent);
