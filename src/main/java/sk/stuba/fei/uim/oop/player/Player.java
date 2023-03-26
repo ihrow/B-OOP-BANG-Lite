@@ -1,10 +1,8 @@
 package sk.stuba.fei.uim.oop.player;
 
-import sk.stuba.fei.uim.oop.cards.Barrel;
-import sk.stuba.fei.uim.oop.cards.Card;
-import sk.stuba.fei.uim.oop.cards.Missed;
-
+import sk.stuba.fei.uim.oop.cards.*;
 import static sk.stuba.fei.uim.oop.utility.Colors.*;
+
 import java.util.ArrayList;
 
 public class Player {
@@ -65,7 +63,8 @@ public class Player {
             }
             System.out.println(ANSI_RESET);
         }
-        System.out.println(ANSI_CYAN + this.name + ANSI_RESET + ", your cards:");
+        System.out.println("\n" + ANSI_CYAN + this.name + ANSI_RESET + ", you have " + ANSI_RED_B + this.lives + ANSI_RESET + " ❤️ left");
+        System.out.println("Your cards: ");
         for (int i = 0; i < this.cards.size(); i++) {
             System.out.println("Card " + (i + 1) + ": " + this.cards.get(i).getName());
         }
@@ -87,14 +86,24 @@ public class Player {
         this.lives += 2;
     }
 
-    public void addBlueCard(Card playedCard) {
+    public boolean addBlueCard(Card playedCard) {
         for (Card card : this.playedBlueCards) {
             if (playedCard.getName().equals(card.getName())) {
-                System.out.println("You already have this card in front of you.");
-                return;
+                System.out.println("A player already has this card in front of him.");
+                return false;
             }
         }
         this.playedBlueCards.add(playedCard);
+        return true;
+    }
+
+    public boolean isInPrison() {
+        for (Card card : this.playedBlueCards) {
+            if (card instanceof Prison) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void removeBlueCard(Card card) {
