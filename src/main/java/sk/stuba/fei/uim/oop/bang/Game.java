@@ -74,6 +74,7 @@ public class Game {
             Player activePlayer = this.players.get(this.currentPlayer);
             this.announceTurn(activePlayer, (index++ % 10));
             this.makeTurn(activePlayer);
+            if(index == 5) this.deck.shuffle(); // let's shuffle this deck every 5 turns
             if(this.currentPlayer == this.players.size()) this.currentPlayer--;
             this.currentPlayer = (this.currentPlayer + 1) % this.players.size();
         }

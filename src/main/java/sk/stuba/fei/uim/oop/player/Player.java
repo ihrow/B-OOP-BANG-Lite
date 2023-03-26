@@ -10,13 +10,13 @@ public class Player {
     private final String name;
     private int lives;
     private ArrayList<Card> cards;
-    private ArrayList<Card> playedBlueCards;
+    private final ArrayList<Card> playedBlueCards;
 
     public Player(String name) {
         this.name = name;
         this.lives = 4;
-        this.cards = new ArrayList<Card>();
-        this.playedBlueCards = new ArrayList<Card>();
+        this.cards = new ArrayList<>();
+        this.playedBlueCards = new ArrayList<>();
     }
 
     public String getName() {
@@ -51,7 +51,7 @@ public class Player {
 
     public ArrayList<Card> removeAllCards() {
         ArrayList<Card> cardsToDeck = this.cards;
-        this.cards = new ArrayList<Card>();
+        this.cards = new ArrayList<>();
         return cardsToDeck;
     }
 

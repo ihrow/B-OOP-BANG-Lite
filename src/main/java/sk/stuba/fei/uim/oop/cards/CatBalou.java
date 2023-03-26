@@ -24,23 +24,19 @@ public class CatBalou extends Card {
         this.deck.addCard(this);
 
         int firstChoice = chooseDiscardOption(opponentsHandSize, opponentsBlueCardSize);
-        if (firstChoice == 1 && opponentsHandSize > 0) {
-            int cardChoice = this.deck.getRandom().nextInt(opponentsHandSize);
+        int cardChoice = this.deck.getRandom().nextInt(firstChoice == 1 ? opponentsHandSize : opponentsBlueCardSize);
+
+        if (firstChoice == 1) {
             targetPlayer.removeCard(cardChoice);
-        } else if (firstChoice == 2 && opponentsBlueCardSize > 0) {
-            int cardChoice = this.deck.getRandom().nextInt(opponentsBlueCardSize);
+        } else {
             targetPlayer.removeBlueCard(cardChoice);
         }
 
     }
 
     private int chooseDiscardOption(int opponentsHandSize, int opponentsBlueCardSize) {
-        if (opponentsHandSize == 0) {
-            return 2;
-        }
-        if (opponentsBlueCardSize == 0) {
-            return 1;
-        }
+        if (opponentsHandSize == 0) return 2;
+        if (opponentsBlueCardSize == 0) return 1;
 
         int choice = 0;
         while (choice < 1 || choice > 2) {
