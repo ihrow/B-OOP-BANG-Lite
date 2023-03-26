@@ -109,21 +109,44 @@ public class Game {
         // If he has blue cards (Prison, Dynamite) in front of him, their effect is excecuted as first.
         ArrayList<Card> blueCards = activePlayer.getPlayedBlueCards();
 
+        // check dynamite first
+        for (int i = 0; i < blueCards.size(); i++) {
+            Card card = blueCards.get(i);
+            if (card instanceof Dynamite) {
+                card.effect(activePlayer);
+                if (activePlayer.getPlayedBlueCards().contains(card)) {
+                    this.moveCardToThePreviousPlayer(activePlayer, card);
+                }
+            }
+        }
+
+
+        for (int i = 0; i < blueCards.size(); i++) {
+            Card card = blueCards.get(i);
+            if (card instanceof Prison) {
+                card.effect(activePlayer);
+                if (!card.didEscape(activePlayer)) {
+                    return;
+                }
+            }
+        }
+
+
+
         for (int i = 0; i < blueCards.size(); i++) {
             Card card = blueCards.get(i);
             card.effect(activePlayer);
-
             if (card instanceof Prison) {
                 if (!card.didEscape(activePlayer)) {
                     return;
                 }
             }
-
             if (card instanceof Dynamite && activePlayer.getPlayedBlueCards().contains(card)) {
                 this.moveCardToThePreviousPlayer(activePlayer, card);
             }
-
         }
+
+
 
         // Drawing cards - at the beginning of his turn, the given player draws 2 cards from the deck.
         for (int i = 0; i < 2; i++) {
